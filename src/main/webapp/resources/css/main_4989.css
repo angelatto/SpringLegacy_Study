@@ -1,0 +1,278 @@
+@charset "UTF-8";
+
+/* font style */
+@font-face {
+    font-family: 'Wemakeprice-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Wemakeprice-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 전체 스타일 폰트 */
+* {
+	font-family: "Wemakeprice-Regular";
+}
+
+/* header css */
+
+
+.header_search {
+   width: 700px;
+}
+
+.header_search_input {
+          
+      
+        background-image : url('../images/search.png'); 
+        background-position: 18px 12px; 
+          background-size: 15px 15px;
+        background-repeat:no-repeat;      
+ }
+
+.header {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.logo {
+   font-size: 3em;
+   text-decoration: none;
+   color: black;
+}
+
+
+
+.header_menu_item {
+   text-decoration: none;
+   font-size: 1.5em;
+   padding: 15px;
+   color: black;
+}
+
+
+.header_logo{
+   
+   margin-top: 30px;
+   margin-left: 70px;
+}
+
+.header_menu{
+   
+   margin-top: 30px;
+   
+}
+
+
+.header_cart{
+   
+   
+   margin-top: 30px;
+   
+}
+
+.header_logIn {
+   margin-right: 80px;
+   margin-top: 30px;
+}
+.header_logIn_item {
+   text-decoration: none;
+   font-size: 1.2em;
+   padding: 14px;
+   color: black;
+}
+/* info css */
+.info_content {
+	display: flex;
+	justify-content: center;
+}
+/* login css */
+.login_content {
+	background-image: url('../images/login1.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box; padding-top : 100px;
+	padding-bottom: 300px;
+	padding-top: 100px;
+	background-size: contain;
+}
+
+.login_header {
+	margin: 20px;
+}
+
+.login_input {
+	display: flex;
+	flex-direction: column;
+	padding: 30px;
+	margin: 20px;
+}
+
+.login_input>input {
+	margin: 15px;
+}
+
+.login_otherMenu {
+	
+}
+
+.login_otherMenu>a {
+	margin: 10px;
+}
+
+/* sign in */
+.signin_main{
+	background-image: url('../images/signin.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	padding-top: 100px;
+	padding-bottom: 300px;
+	background-size: contain;
+}
+.signin_header{
+	
+	
+}
+
+.signin_input{
+	
+	
+}
+.signin_input_form{
+		display: flex;
+		lex-direction: row;
+}
+.signin_othermenu{
+	
+	
+}
+/* find Email */
+.findEmail_main {
+	background-image: url('../images/findEmail.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	padding-top: 100px;
+	padding-bottom: 300px;
+	background-size: contain;
+}
+
+.findEmail_header {
+	margin: 20px;
+}
+
+.findEmail_input {
+	display: flex;
+	flex-direction: column;
+	padding: 30px;
+	margin: 20px;
+}
+
+.findEmail_input > input {
+	margin: 15px;
+}
+
+.findEmail_otherMenu {
+	
+}
+
+.findEmail_otherMenu>a {
+	margin: 10px;
+}
+
+/* resetPw */
+.resetPw_main{
+	background-image: url('../images/resetPw.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	padding-top: 100px;
+	padding-bottom: 300px;
+	background-size: contain;
+	
+}
+
+.resetPw_header{
+	margin: 20px;
+	
+}
+.resetPw_input{
+	display: flex;
+	flex-direction: column;
+	padding: 30px;
+	margin: 20px;
+	
+}
+.resetPw_input > input{
+	margin: 15px;
+	
+}
+.resetPw_otherMenu{
+	
+}
+.resetPw_otherMenu > a{
+	margin: 10px;
+}
+
+
+/* advertisement */
+.advertise_content{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+
+/* footer css */
+footer {
+	padding: 30px;
+	padding-left: 200px;
+	padding-right: 200px;
+	background-color: #f8f9fa;
+	color: #868e96;
+	justify-content: center;
+}
+
+.footer_top {
+	display: flex;
+	flex-direction: row;
+}
+
+.footer_name {
+	padding: 10px;
+	flex-grow: 11;
+}
+
+.footer_sns {
+	flex-grow: 1;
+}
+
+.footer_sns>.footer_icon {
+	padding: 10px;
+}
+
+.footer_info {
+	font-family: "wema";
+}
+
+.footer_copyright {
+	color: #ced4da;
+}
