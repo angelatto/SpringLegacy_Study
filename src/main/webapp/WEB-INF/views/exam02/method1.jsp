@@ -28,7 +28,7 @@
             <div class=" h-100 d-flex flex-column">
               <div class="flex-grow-1 overflow-auto pr-3" style="height:0px">
                 <%-- 메뉴 내용 부분 --%>
-              
+                method01.jsp
                 <hr>
               </div>
             </div>

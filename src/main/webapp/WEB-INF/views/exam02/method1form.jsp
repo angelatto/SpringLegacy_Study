@@ -28,8 +28,16 @@
             <div class=" h-100 d-flex flex-column">
               <div class="flex-grow-1 overflow-auto pr-3" style="height:0px">
                 <%-- 메뉴 내용 부분 --%>
-              
-                <hr>
+                method01form.jsp
+                <hr/>
+                <form method="post" action="method1">
+	            	<div class="form-gourp">
+	            		<label for="name">이름</label>
+	            		<input id="name" type="text" name="name" class="form-control"/>
+	                </div>
+	                <input class="btn btn-success btn-sm" type="submit" value="전송">
+                </form>
+                
               </div>
             </div>
           </div>
