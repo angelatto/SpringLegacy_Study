@@ -4,10 +4,8 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 <div>
- <%-- 메뉴 내용 부분 --%>
-     method01.jsp
-    <hr/>
-    받은 이름 : ${name}
+     kind: ${kind} <br/>
+     pageNo: ${pageNo} <br/>
     
  </div>
 

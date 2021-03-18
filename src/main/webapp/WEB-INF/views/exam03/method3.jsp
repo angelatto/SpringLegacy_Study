@@ -4,11 +4,14 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 <div>
- <%-- 메뉴 내용 부분 --%>
-     method01.jsp
-    <hr/>
-    받은 이름 : ${name}
-    
+	uid: ${user.uid}  <br/>
+    uemail: ${user.uname} <br/>
+    upassword: ${user.upassword} <br/>
+    uhobby: 
+    	<c:forEach var="hobby" items="${user.uhobby}">
+    		${hobby},
+    	</c:forEach>  <br/>
+    ujob: ${user.ujob}  <br/>
  </div>
 
 <%@ include  file="/WEB-INF/views/common/footer.jsp"%>

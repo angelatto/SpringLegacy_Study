@@ -7,7 +7,7 @@
 		<title>Spring</title>
 		<%-- application : ServletContext 객체 (웹 어플리케이션 실행정보를 가지고 있는 객체) 참조  --%>
 		<link rel="stylesheet" href="<%=application.getContextPath() %>/resources/bootstrap-4.6.0/css/bootstrap.min.css">
-		<script src="${pageContext.request.contextPath}/resources/js/jquery-3.5.1.min.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/jquery/jquery-3.5.1.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/bootstrap-4.6.0/js/bootstrap.bundle.min.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/bootstrap-4.6.0/js/bootstrap.min.js"></script>
 	</head>
@@ -27,8 +27,11 @@
           <div class="col-md-8 p-3">
             <div class=" h-100 d-flex flex-column">
               <div class="flex-grow-1 overflow-auto pr-3" style="height:0px">
-                <%-- 메뉴 내용 부분 --%>
-              
+              	<div>
+	                <%-- 메뉴 내용 부분 --%>
+	              		<div></div>
+	              		<div></div>
+              	</div>
                 <hr>
               </div>
             </div>
