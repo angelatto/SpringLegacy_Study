@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- DB 연결 설정 및 컨넥션 풀 설정 : <bean> 태그는 객체를 하나 만들겠다.-->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@106.253.56.122:1521:orcl"/>
+		<property name="username" value="user8"/>
+		<property name="password" value="12345"/>
+		<property name="initialSize" value="2"/>  <!-- 처음 컨넥션풀에서 몇개를 연결시켜 놓을지 설정 -->
+		<property name="maxTotal" value="5"/> <!-- 컨넥션풀에서 최대 몇개까지 설정할 수 있는지 -->
+		<property name="maxIdle" value="2"/>  <!-- initalSize와 같게 만들어준다.  놀고있는 풀을 몇개로 만들지??  -->
+	</bean>
+	
+	<!-- MyBatis -->
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" value="/WEB-INF/mybatis/mapper-config.xml"/>
+		<property name="mapperLocations" value="/WEB-INF/mybatis/mapper/*.xml"/>
+	</bean>
+	
+</beans>
