@@ -17,7 +17,8 @@
 	</c:if>
 	
 
-	<p><a href="boards">게시물 목록</a></p>
+	<p><a href="list">게시물 목록</a></p>
+	<p><a href="createForm">게시물 입력</a></p>
 
 </div>
 	  
