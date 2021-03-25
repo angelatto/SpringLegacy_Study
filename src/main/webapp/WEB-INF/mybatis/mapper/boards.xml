@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="euc-kr" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="boards">
+<mapper namespace="com.mycompany.webapp.dao.BoardsDao">
  	<select id="selectAll" resultType="board">
  		select bno, btitle, bcontent, bwriter, bdate, bhitcount
  		from boards
  		order by bno desc
  	</select>
  	
- 	<insert id="insert">
- 		insert into boards
- 		(bno, btitle, bcontent, bwriter, bdate, bhitcount)
- 		values
- 		(seq_boards_bno.nextval, #{btitle}, #{bcontent}, #{bwriter}, sysdate, 0)
+ 	<insert id="insert" parameterType="board">
+ 		<if test="battachoname == null">
+	 		insert into boards
+	 		(bno, btitle, bcontent, bwriter, bdate, bhitcount)
+	 		values
+	 		(seq_boards_bno.nextval, #{btitle}, #{bcontent}, #{bwriter}, sysdate, 0)
+	 	</if>
+	 	<if test="battachoname != null">
+	 		insert into boards
+	 		(bno, btitle, bcontent, bwriter, bdate, bhitcount, battachoname, battachsname, battachtype)
+	 		values
+	 		(seq_boards_bno.nextval, #{btitle}, #{bcontent}, #{bwriter}, sysdate, 0, #{battachoname}, #{battachsname}, #{battachtype})
+	 	</if>
  	</insert>
  	
  	<select id="selectByBno" resultType="board">
- 		select bno, btitle, bcontent, bwriter, bdate, bhitcount
+ 		select bno, btitle, bcontent, bwriter, bdate, bhitcount, battachoname, battachsname, battachtype
  		from boards
  		where bno=#{bno}
  	</select>

@@ -1,17 +1,27 @@
 package com.mycompany.webapp.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mycompany.webapp.dto.Board;
 import com.mycompany.webapp.dto.Pager;
@@ -21,6 +31,9 @@ import com.mycompany.webapp.service.BoardsService;
 @RequestMapping("/exam04")
 public class Exam04Controller {
 
+	private static final Logger logger = 
+			LoggerFactory.getLogger(Exam04Controller.class);
+	
 	@Autowired
 	private BoardsService boardsService;
 	
@@ -134,5 +147,72 @@ public class Exam04Controller {
 		return "redirect:/exam04/list";  // get방식 요청 return 
 	}
 	
+	@GetMapping("/createFormWithAttach")
+	public String createFormWithAttach() {
+		return "exam04/createFormWithAttach";
+	}
 	
+	@PostMapping("/createWithAttach")
+	public String createWithAttach(Board board) {
+//			String btitle, String bcontent, MultipartFile battach) {
+		MultipartFile battach = board.getBattach()[0];
+		
+		if(!battach.isEmpty()) { // 첨부가 있을 경우 
+			board.setBattachoname(battach.getOriginalFilename());
+			board.setBattachtype(battach.getContentType());
+			String saveName = new Date().getTime() + "-" + battach.getOriginalFilename();
+			board.setBattachsname(saveName);
+			
+			File file = new File("/Users/homecj/dev/workspace/sts/Douzone/uploadfiles/" + saveName);
+			try {
+				battach.transferTo(file); // 여기서 이미지 파일 지정 경로에 저장 ... 
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		logger.info(board.getBtitle());
+		logger.info(board.getBcontent());
+		logger.info(board.getBattachoname());
+		logger.info(board.getBattachsname());
+		logger.info(board.getBattachtype());
+		
+		board.setBwriter("user1");
+		boardsService.saveBoard(board);  // 디비에 저장을 한거고 .. 
+		
+		return "redirect:/exam04/list"; 
+	}
+	
+	@GetMapping("/downloadAttach")
+	public void downloadAttach(int bno, HttpServletResponse response) {
+		/*
+		 *  얘가 실행하고 나서 결과는 그림의 데이터이기 때문에 문자열을 반환하지 않는다. 
+		 */
+		try {
+			Board board = boardsService.getBoard(bno);
+			
+			// 응답 HTTP 헤더에 저장될 응답 바디의 타입 
+			response.setContentType(board.getBattachtype());
+			
+			// 응답 HTTP 헤더에 다운로드할 수 있도록 파일 이름을 지정
+			String originalName = board.getBattachoname();
+			// 한글 파일일 경우, 깨짐 현상을 방지 
+			// header에는 한글을 절대 넣을 수 없다. 헤더에는 아스키코드만 해석할 수 있으니까 UTF-8에서 변환한다. 
+			originalName = new String(originalName.getBytes("UTF-8"), "ISO-8859-1");
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + originalName + "\"");  // 헤더의 위치 지정
+			// attachment값이  파일로 다운로드 가능하게 해줌 
+			
+			// 응답 HTTP 바디로 이미지 데이터를 출력 
+			InputStream in = new FileInputStream("/Users/homecj/dev/workspace/sts/Douzone/uploadfiles/" + board.getBattachsname());	    
+			OutputStream out = response.getOutputStream();
+			FileCopyUtils.copy(in, out);
+			out.flush();
+			in.close();
+			out.close();
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+			
 }

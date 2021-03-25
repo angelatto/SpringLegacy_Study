@@ -16,7 +16,7 @@
       src="${pageContext.request.contextPath}/resources/bootstrap-4.6.0/js/bootstrap.min.js"></script>
 </head>
 <body ng-controller="mainController">
-   <div class="d-flex flex-column vh-100">
+   <div class="d-flex flex-column vh-100" style="height: 2000px;">
 
       <nav
          class="navbar navbar-expand-sm bg-dark navbar-dark text-white font-weight-bold justify-content-between">
@@ -32,7 +32,7 @@
          </div>
       </nav>
 
-      <div class="flex-grow-1 container-fluid">
+      <div class="flex-grow-1 container-fluid" style="height: 2000px;">
          <div class="row h-100">
             <div class="col-md-4 p-3 bg-dark">
                <div class="h-100 d-flex flex-column">

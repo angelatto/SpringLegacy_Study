@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 <div>
 
@@ -38,13 +37,19 @@
    	 			<img src="downloadAttach?bno=${board.bno}" width="200"/>
    	 		</a>
    	 	</c:if>
+   	 	<c:if test="${board.battachoname==null}">
+   	 		<div>여기는 battachoname이 널임 : ${board.battachoname}</div>
+   	 	</c:if>
    	 </div>
    	 
-   	  <div>
-   	  	<a href="list">목록</a>
-   	  	<a href="updateForm?bno=${board.bno}">수정</a>
-   	  	<a href="delete?bno=${board.bno}">삭제</a>
+   	  <div>	
+   	  	<button class="btn btn-outline-primary btn-sm"
+							onclick="getList(1)"> 목록 </button>
+							
+		 <button class="btn btn-outline-primary btn-sm"
+							onclick="updateForm(${board.bno})"> 수정 </button>
+		 <button class="btn btn-outline-primary btn-sm"
+							onclick="deleteBoard(${board.bno})"> 삭제 </button>
       </div>
 </div>
 	  
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>

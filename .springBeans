@@ -9,6 +9,7 @@
 	<configs>
 		<config>src/main/webapp/WEB-INF/spring/root/component-scan.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/root/datasource.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/dispatcher/multipart-resolver.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/spring/dispatcher/view-resolver.xml</config>
