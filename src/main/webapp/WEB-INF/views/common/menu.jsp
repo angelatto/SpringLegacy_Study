@@ -52,4 +52,24 @@
        로그인 처리 
     </a>
    </li>
+   
+    <li class="nav-item mb-2">
+    <h6 class="text-white">스프링 시큐리티 </h6>
+    <a class="nav-link text-warning" href="${pageContext.request.contextPath}/exam08/user/boardlist">
+       사용자가 사용하는 페이지 
+    </a>
+     <a class="nav-link text-warning" href="${pageContext.request.contextPath}/exam08/admin/boardlist">
+       관리자가 사용하는 페이지 
+    </a>
+   </li>
+   
+   <li class="nav-item mb-2">
+    <h6 class="text-white">유효성 검사 </h6>
+    <a class="nav-link text-warning" href="${pageContext.request.contextPath}/exam09/joinForm">
+      1차 검사 (클라이언트 : JS) 
+    </a>
+    <a class="nav-link text-warning" href="${pageContext.request.contextPath}/exam09/validate2">
+      2차 검사 (서버 : Spring Validation) 후에 진행 
+      </a>
+   </li>
 </ul>
