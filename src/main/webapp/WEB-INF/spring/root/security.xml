@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<!-- 보안을 체크할 필요가 없는 경로 설정 -->
+	<security:http pattern="/resources/**" security="none"/>
+	
+	<!-- 보안 필터 체인(프로세싱) 설정 -->
+	<security:http>
+		<!-- 요청 경로 체크 -->
+		<security:intercept-url pattern="/exam08/admin/**" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/exam08/user/**" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/**" access="permitAll" />
+		
+		<!-- 로그인/로그아웃 설정 -->
+		<security:form-login login-page="/exam08/loginForm"
+							 username-parameter="uid"
+							 password-parameter="upassword"
+							 login-processing-url="/login"
+							 authentication-failure-url="exam08/loginForm"
+							 authentication-success-handler-ref="authSuccessHandler"
+							 authentication-failure-handler-ref="authFailureHandler"/>	
+		<!-- 서버에서 이동 forword(jsp로 이동), redirect는 그냥url -->
+		
+		<!-- <security:csrf disabled="true"/> -->
+		<!-- 스프링 시큐어리티는 로그아웃도 POST 방식으로 요청해야함  
+	주의할 사항!!!!)))) AJAX로 요청할 때도 메소드 방식 포스트로 해야함 !!! 와우 -->		 
+		<security:logout logout-url="/logout"/>		
+		<!--<form method="post" action="/login"> 스프링이 사용하는 기본 경로를 써야함 
+			<input name="uid"> <input name="upassword"> /login /logout은 컨트롤러에서 만들어준 경로가 아니다. 
+		 -->
+		 
+		 <!-- 로그인 중복 처리 설정  -->
+		 <security:session-management>
+		 	<!-- 기존 브라우저는 강제 아웃시키고, 다른 브라우저는 로그인  -->
+		 	<!-- <security:concurrency-control max-sessions="1" 
+		 								error-if-maximum-exceeded="false"
+		 								expired-url="/exam08/loginForm" /> -->
+		 								
+		 	<!-- 기존 브라우저는 로그인 유지, 다른 브라우저는 로그인되지 않고 에러 메세지 출력  -->
+		 	<security:concurrency-control max-sessions="1" 
+		 								error-if-maximum-exceeded="true" />
+		 </security:session-management>
+	</security:http>
+	
+	<!-- 사용자 인증 처리를 위한 설정 (DB 테이블 관련 ) -->
+	<security:authentication-manager>
+		<security:authentication-provider ref="daoAuthenticationProvider"/>
+	</security:authentication-manager>
+	
+	<bean id="daoAuthenticationProvider"
+			class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="passwordEncoder" ref="bCryptPasswordEncoder" />
+		<property name="userDetailsService" ref="jdbcUserService"></property> <!-- 스프링시큐리티가 DB에 있는 아이디와 패스워드를 체크할 때 사용-->
+		<property name="authoritiesMapper" ref="roleHierarchyAuthoritiesMapper"></property> <!-- 해당 유저가 어떤 권한을 가지고 있는지 확인할 때  -->
+		
+	</bean>
+	
+	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
+	<security:jdbc-user-service id="jdbcUserService" 
+								data-source-ref="dataSource"
+								users-by-username-query="select userid, userpassword, userenabled from users where userid=?"
+								authorities-by-username-query="select userid, userauthority from users where userid=?"/>
+	
+	<bean id="roleHierarchyAuthoritiesMapper" 
+			class="org.springframework.security.access.hierarchicalroles.RoleHierarchyAuthoritiesMapper">
+		<constructor-arg>
+			<bean class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+				<property name="hierarchy">
+					<value>
+						ROLE_ADMIN > ROLE_MANAGER
+						ROLE_MANAGER > ROLE_USER
+					</value>
+				</property>
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 로그인 성공했을 때와 실패했을 때 콜백되는 객체 설정  -->
+	<bean id="authSuccessHandler" 
+			class="com.mycompany.webapp.security.AuthSuccessHandler">
+			
+	</bean>
+	<bean id="authFailureHandler" 
+			class="com.mycompany.webapp.security.AuthFailureHandler">
+		
+	</bean>
+	
+</beans>
