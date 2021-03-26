@@ -37,19 +37,18 @@
    	 			<img src="downloadAttach?bno=${board.bno}" width="200"/>
    	 		</a>
    	 	</c:if>
-   	 	<c:if test="${board.battachoname==null}">
-   	 		<div>여기는 battachoname이 널임 : ${board.battachoname}</div>
-   	 	</c:if>
    	 </div>
-   	 
+  
    	  <div>	
    	  	<button class="btn btn-outline-primary btn-sm"
-							onclick="getList(1)"> 목록 </button>
-							
-		 <button class="btn btn-outline-primary btn-sm"
-							onclick="updateForm(${board.bno})"> 수정 </button>
-		 <button class="btn btn-outline-primary btn-sm"
-							onclick="deleteBoard(${board.bno})"> 삭제 </button>
+							onclick="getList()"> 목록 </button>
+	
+		<c:if test="${loginUid == board.bwriter}">		
+			 <button class="btn btn-outline-primary btn-sm"
+								onclick="updateForm(${board.bno})"> 수정 </button>
+			 <button class="btn btn-outline-primary btn-sm"
+								onclick="deleteBoard(${board.bno})"> 삭제 </button>
+		</c:if>						
       </div>
 </div>
 	  

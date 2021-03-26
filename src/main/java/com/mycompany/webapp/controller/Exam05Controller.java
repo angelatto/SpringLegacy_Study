@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -42,14 +43,37 @@ public class Exam05Controller {
 	
 		return "exam05/content";
 	}
-	
+
 	@GetMapping("/list")
-	public String getBoardList(@RequestParam(defaultValue="1")int pageNo, Model model) {
+	public String getBoardList( //@RequestParam(defaultValue="1")int pageNo, 
+			String pageNo, Model model, HttpSession session) {
+		
+		int intPageNo = 1; // 디폴트 값 
+		if(pageNo == null) {  // 파라미터로 넘어온 값이 없으면 세션에서 찾아보기 
+			// 세션에서 Pager를 찾고, 있으면 pageNo를 설정 
+			Pager pager = (Pager) session.getAttribute("pager");
+			if(pager != null) {
+				intPageNo = pager.getPageNo();
+			}
+		}else { // 파라미터로 넘어온 값이 있으면 
+			intPageNo = Integer.parseInt(pageNo);
+		}
+		
+		
 		int totalRows = boardsService.getTotalRows();
-		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		Pager pager = new Pager(10, 5, totalRows, intPageNo);
+		session.setAttribute("pager", pager);  // 게시물 들어갔다가 다시 목록가도 페이지 넘버 그대로 유지댐 
+		/*
+		 *  이페이저 의미 해석하기 
+		 *  1. rowsPerpage 페이지당 행 수  - 10 
+		 *  2. pagesPerGroup 그룹당 페이지 수 - 5
+		 *  3. totalRows 전체 행 수 - 디비에서 구해옴 
+		 *  4. intPageNo  현재 페이지 번호 - 파라미터로 넘어옴 
+		 */
 		List<Board> list = boardsService.getBoardList(pager);
 		model.addAttribute("list", list); // jsp에 list 넘겨주기 
 		model.addAttribute("pager", pager);
+		
 		return "exam05/boardlist";
 	}
 	

@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="euc-kr" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="users">
+
+<mapper namespace="com.mycompany.webapp.dao.UsersDao">
+ 	<insert id="insert" parameterType="user">
+ 		insert into users
+ 		(userid, username, userpassword, userauthority, userenabled)
+ 		values
+ 		(#{uid}, #{uname}, #{upassword}, 'ROLE_USER', 1)
+ 	</insert>
+ 	
+ 	<resultMap id="userResultMap" type="user">
+ 		<result property="uid" column="userid" />
+ 		<result property="uname" column="username" />
+ 		<result property="upassword" column="userpassword" />
+ 		<result property="uauthority" column="userauthority" />
+ 		<result property="uenabled" column="userenabled" />
+ 	</resultMap>
+ 	<select id="selectByUid" resultMap="userResultMap">
+ 		select userid, username, userpassword, userauthority, userenabled
+ 		from users
+ 		where userid = #{uid}
+ 	</select>
  
-</mapper>
+</mapper> 

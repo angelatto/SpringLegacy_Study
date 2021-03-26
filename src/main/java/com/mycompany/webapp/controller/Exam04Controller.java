@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
@@ -20,7 +21,6 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mycompany.webapp.dto.Board;
@@ -71,17 +71,31 @@ public class Exam04Controller {
 //	}
 	
 	@GetMapping("/list")
-	public String getBoardList(@RequestParam(defaultValue="1")int pageNo, Model model) {
+	public String getBoardList( //@RequestParam(defaultValue="1")int pageNo, 
+			String pageNo, Model model, HttpSession session) {
+		
+		int intPageNo = 1; // 디폴트 값 
+		if(pageNo == null) {  // 파라미터로 넘어온 값이 없으면 세션에서 찾아보기 
+			// 세션에서 Pager를 찾고, 있으면 pageNo를 설정 
+			Pager pager = (Pager) session.getAttribute("pager");
+			if(pager != null) {
+				intPageNo = pager.getPageNo();
+			}
+		}else { // 파라미터로 넘어온 값이 있으면 
+			intPageNo = Integer.parseInt(pageNo);
+		}
+		
+		
 		int totalRows = boardsService.getTotalRows();
-		Pager pager = new Pager(10, 5, totalRows, pageNo);
+		Pager pager = new Pager(10, 5, totalRows, intPageNo);
+		session.setAttribute("pager", pager);
 		/*
 		 *  이페이저 의미 해석하기 
 		 *  1. rowsPerpage 페이지당 행 수  - 10 
 		 *  2. pagesPerGroup 그룹당 페이지 수 - 5
 		 *  3. totalRows 전체 행 수 - 디비에서 구해옴 
-		 *  4. pageNo  현재 페이지 번호 - 파라미터로 넘어옴 
+		 *  4. intPageNo  현재 페이지 번호 - 파라미터로 넘어옴 
 		 */
-		
 		List<Board> list = boardsService.getBoardList(pager);
 		model.addAttribute("list", list); // jsp에 list 넘겨주기 
 		model.addAttribute("pager", pager);
@@ -91,7 +105,11 @@ public class Exam04Controller {
 	
 	
 	@GetMapping("/createForm")
-	public String insertForm() {
+	public String insertForm(HttpSession session) {
+		String uid = (String)session.getAttribute("loginUid");
+		if(uid == null) {
+			return "redirect:/exam07/loginForm";
+		}
 		return "exam04/createForm";
 	}
 	
@@ -108,12 +126,12 @@ public class Exam04Controller {
 //	}
 	
 	@PostMapping("/create")
-	public String saveBoard(Board board) {
+	public String saveBoard(Board board, HttpSession session){
 		/*
 		 *  이렇게 (커맨드)객체로 전달받아서 필요한것만 setter해서 넣으면 된다. 
 		 *  이게 가능하려면 폼태그에서 name이 DTO의 필드네임과 동일해야 한다. 
 		 */
-		board.setBwriter("chaejeong");
+		board.setBwriter((String)session.getAttribute("loginUid"));
 		boardsService.saveBoard(board);
 		return "redirect:/exam04/list";  // get방식 요청 
 	}
@@ -148,7 +166,11 @@ public class Exam04Controller {
 	}
 	
 	@GetMapping("/createFormWithAttach")
-	public String createFormWithAttach() {
+	public String createFormWithAttach(HttpSession session) {
+		String uid = (String)session.getAttribute("loginUid");
+		if(uid == null) {
+			return "redirect:/exam07/loginForm";
+		}
 		return "exam04/createFormWithAttach";
 	}
 	

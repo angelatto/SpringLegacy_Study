@@ -2,10 +2,12 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
                         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-   <!--  맵퍼에 resultType alias 설정  --> 
+   <!--  맵퍼에 ParameterType ResultType alias 설정  --> 
    <typeAliases>
    		<typeAlias type="com.mycompany.webapp.dto.Board" alias="board"/>
    		<typeAlias type="com.mycompany.webapp.dto.Pager" alias="pager"/>
+   		<typeAlias type="com.mycompany.webapp.dto.User" alias="user"/>
+   		
    </typeAliases>
    
    
