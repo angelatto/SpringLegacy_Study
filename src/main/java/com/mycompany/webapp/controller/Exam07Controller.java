@@ -7,11 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.mycompany.webapp.dto.User;
 import com.mycompany.webapp.service.UsersService;
 
@@ -48,7 +46,7 @@ public class Exam07Controller {
 	
 	@PostMapping("/login")
 	public String login(User user, HttpSession session) {
-		String result = usersService.login(user);
+		String result = usersService.login(user); // success, wrongUid, wrongUpassword
 		if(result.equals("success")) { // 로그인 성공 
 			session.removeAttribute("loginError");
 			session.setAttribute("loginUid", user.getUid());
