@@ -9,17 +9,21 @@
  	</select>
  	
  	<insert id="insert" parameterType="board">
+ 		<selectKey keyProperty="bno" resultType="int" order="BEFORE">
+ 			select seq_boards_bno.nextval from dual
+ 		</selectKey>
+
  		<if test="battachoname == null">
 	 		insert into boards
 	 		(bno, btitle, bcontent, bwriter, bdate, bhitcount)
 	 		values
-	 		(seq_boards_bno.nextval, #{btitle}, #{bcontent}, #{bwriter}, sysdate, 0)
+	 		(#{bno}, #{btitle}, #{bcontent}, #{bwriter}, sysdate, 0)
 	 	</if>
 	 	<if test="battachoname != null">
 	 		insert into boards
 	 		(bno, btitle, bcontent, bwriter, bdate, bhitcount, battachoname, battachsname, battachtype)
 	 		values
-	 		(seq_boards_bno.nextval, #{btitle}, #{bcontent}, #{bwriter}, sysdate, 0, #{battachoname}, #{battachsname}, #{battachtype})
+	 		(#{bno}, #{btitle}, #{bcontent}, #{bwriter}, sysdate, 0, #{battachoname}, #{battachsname}, #{battachtype})
 	 	</if>
  	</insert>
  	
